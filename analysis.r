@@ -5,7 +5,7 @@
 > activity.names <- c("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING")
 > 
 > # A helper method for printing to the console.
-> p <- function(...) {
+> print_line <- function(...) {
 +     cat("[run_analysis.R]", ..., "\n")
 + }
 > 
@@ -32,24 +32,24 @@
 +     activities.name <- file.path(real.dir, activities.file(name))
 +     subjects.name <- file.path(real.dir, subjects.file(name))
 +     
-+     p("Getting dataset:", real.dir)
++     print_line("Getting dataset:", real.dir)
 +     
 +     # Read the features table.
-+     p("  reading features...")
++     print_line("  reading features...")
 +     features.t <- read.table(features.name)[extracted.features]
 +     names(features.t) <- extracted.feature.names
 +     
 +     clean.data <- features.t
 +     
 +     # Read the activities list.
-+     p("  reading activities...")
++     print_line("  reading activities...")
 +     activities.t <- read.table(activities.name)
 +     names(activities.t) <- c("activity")
 +     activities.t$activity <- factor(activities.t$activity, levels = activities, labels = activity.names)
 +     clean.data <- cbind(clean.data, activity = activities.t$activity)
 +     
 +     # Read the subjects list.
-+     p("  reading subjects...")
++     print_line("  reading subjects...")
 +     subjects.t <- read.table(subjects.name)
 +     names(subjects.t) <- c("subject")
 +     clean.data <- cbind(clean.data, subject = subjects.t$subject)
@@ -61,33 +61,28 @@
 > # Performs the full analysis of both the test and train
 > # datasets. Writes a clean dataset to disk.
 > run.analysis <- function(dir) {
-+     p("Getting and Cleaning Data Course Project")
-+     p("Author: Shantanu Dev")
-+     p("---")
-+     p("Starting up.")
-+     p("Preparing analysis.")
++     print_line("Getting and Cleaning Data Course Project")
++     print_lin("Author: Shantanu Dev")
++     print_lin("---")
++     print_lin("Starting up.")
++     print_lin("Preparing analysis.")
 +     
 +     # Read the data.
-+     p("Reading datasets.")
++     print_lin("Reading datasets.")
 +     test <- get.data(dir, "test")
 +     train <- get.data(dir, "train")
 +     
 +     # Join the data.
-+     p("Joining datasets.")
++     print_lin("Joining datasets.")
 +     all.data <- rbind(test, train)
 +     
-+     # Reshape the data.
-+     p("Melting.")
-+     #all.data.long <- melt(all.data, id = c("subject", "activity"))
-+     p("Dcasting.")
-+     #all.data.wide <- dcast(all.data.long, subject + activity ~ variable, mean)
 +     
 +     # Set the clean data.
 +     all.data.clean <- all.data
 +     
 +     # Save the clean data.
 +     clean.file.name <- file.path(dir, clean.file)
-+     p("Saving clean data to:", clean.file.name)
++     print_lin("Saving clean data to:", clean.file.name)
 +     write.table(all.data.clean, clean.file.name, row.names = FALSE, quote = FALSE)
 + }
 > 
